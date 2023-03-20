@@ -5,12 +5,13 @@ const mapa = document.getElementById('map')
 const getEstado = async ({target}) => {
     const estado = target.id.replace('BR-','')
     const verificandoEstado = await pesquisarCidade(estado)   
-    const getData =  createCard(verificandoEstado)
+    const verificandoCapital = await pesquisarCapital(estado)
+    const getData =  createCard(verificandoEstado, verificandoCapital)
     target.addEventListener('click', getData)
 }
 
 const pesquisarCidade = async function(event){
-    const url = `http://localhost:8080/cidades?uf=${event}`
+    const url = `/v1/senai/estados/cidades/sigla/${event}`
     const response = await fetch(url)
     const data = await response.json()
     return{
@@ -21,15 +22,15 @@ const pesquisarCidade = async function(event){
 }
 
 const pesquisarCapital = async function(event){
-    const url = `http://localhost:8080/cidades?uf=${event}`
+    const url = `/v1/senai/estado/sigla/${event}`
     const response = await fetch(url)
     const data = await response.json()
     return{
-        uf: data.uf,
-        nome: data.nome,
-        cidades: data.cidades
+        capital:data.capital,
+        regiao: data.regiao
     }
 }
+
 
 const createCard = async (event) => {
     const container = document.getElementById('container')
