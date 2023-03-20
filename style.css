@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+path{
+    fill: #ECCEA7;
+    stroke: #FFF;
+    stroke-width: 2px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+path:hover{
+    fill: #FA9E27;
+}
+
+.map-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 350px;
+    height: 350px;
+    border-radius: 50px;
+    background-color: #ECCEA7;
+}
+
+.ufState{   
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FA9E27;
+    border-radius: 50%;
+    border: 5px solid white;
+}
