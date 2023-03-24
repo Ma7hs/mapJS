@@ -5,7 +5,8 @@ const mapa = document.getElementById('map')
 const getEstado = async ({target}) => {
     const estado = target.id.replace('BR-','')
     const verificandoEstado = await pesquisarCidade(estado)   
-    const getData =  createCard(verificandoEstado)
+    const verificandoCapital  = await pesquisarCapital(estado)
+    const getData =  createCard(verificandoEstado, verificandoCapital)
     target.addEventListener('click', getData)
 }
 
@@ -21,17 +22,16 @@ const pesquisarCidade = async function(event){
 }
 
 const pesquisarCapital = async function(event){
-    const url = `http://localhost:8080/cidades?uf=${event}`
+    const url = `http://localhost:8080/estado/sigla/${event}`
     const response = await fetch(url)
     const data = await response.json()
     return{
-        uf: data.uf,
-        nome: data.nome,
-        cidades: data.cidades
+        regiao: data.regiao,
+        capital: data.capital
     }
 }
 
-const createCard = async (event) => {
+const createCard = async (eventEstado, eventCapital) => {
     const container = document.getElementById('container')
 
     const card = document.createElement('div')
@@ -40,23 +40,43 @@ const createCard = async (event) => {
     const headerCard = document.createElement('div')
     headerCard.classList.add('headerCard')
 
-    const titleHeader = document.createElement('p')
-    titleHeader.textContent = event.nome
-
     const ufState = document.createElement('p')
     ufState.classList.add('ufState')
-    ufState.textContent = event.uf
+    ufState.textContent = eventEstado.uf
 
-    const AllCitys = document.createElement('div')
-    AllCitys.classList.add('AllCity')
+    const div = document.createElement('div')   
+    div.classList.add('divClass') 
 
-    const city = document.createElement('p')
-    city.classList.add(city)
+    const titleHeader = document.createElement('p')
+    titleHeader.textContent = eventEstado.nome
+    titleHeader.classList.add('title')
 
-    
-    headerCard.append(titleHeader, ufState)
-    AllCitys.append(city)
-    card.append(headerCard, AllCitys)
+    const regionState = document.createElement('p')
+    regionState.textContent = eventCapital.regiao
+    regionState.classList.add('regiao')
+
+
+    const capitalState = document.createElement('p')
+    capitalState.textContent = eventCapital.capital
+    capitalState.classList.add('capital')
+
+    const cidades = document.createElement('div')
+    cidades.classList.add('allCity')
+
+    let listaCidades = []
+    let lista = eventEstado.cidades 
+    listaCidades.push(lista)
+
+    listaCidades[0].forEach(function(cidade){
+        const onlyCity = document.createElement('p')
+        onlyCity.classList.add('citys')
+        onlyCity.textContent =  cidade
+        cidades.appendChild(onlyCity)
+    })
+
+    div.append(titleHeader, regionState, capitalState)
+    headerCard.append(ufState, div)
+    card.append(headerCard, cidades)
     container.replaceChildren(card)
 }
 
