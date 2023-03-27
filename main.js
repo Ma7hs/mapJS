@@ -5,17 +5,13 @@ const mapa = document.getElementById('map')
 const getEstado = async ({target}) => {
     const estado = target.id.replace('BR-','')
     const verificandoEstado = await pesquisarCidade(estado)   
-<<<<<<< HEAD
     const verificandoCapital  = await pesquisarCapital(estado)
-=======
-    const verificandoCapital = await pesquisarCapital(estado)
->>>>>>> 0e73889594aa1ebb3cd48256ce43101ea0dd8745
     const getData =  createCard(verificandoEstado, verificandoCapital)
     target.addEventListener('click', getData)
 }
 
 const pesquisarCidade = async function(event){
-    const url = `/v1/senai/estados/cidades/sigla/${event}`
+    const url = `http://localhost:8080/cidades/?uf=${event}`
     const response = await fetch(url)
     const data = await response.json()
     return{
@@ -26,7 +22,6 @@ const pesquisarCidade = async function(event){
 }
 
 const pesquisarCapital = async function(event){
-<<<<<<< HEAD
     const url = `http://localhost:8080/estado/sigla/${event}`
     const response = await fetch(url)
     const data = await response.json()
@@ -37,19 +32,6 @@ const pesquisarCapital = async function(event){
 }
 
 const createCard = async (eventEstado, eventCapital) => {
-=======
-    const url = `/v1/senai/estado/sigla/${event}`
-    const response = await fetch(url)
-    const data = await response.json()
-    return{
-        capital:data.capital,
-        regiao: data.regiao
-    }
-}
-
-
-const createCard = async (event) => {
->>>>>>> 0e73889594aa1ebb3cd48256ce43101ea0dd8745
     const container = document.getElementById('container')
 
     const card = document.createElement('div')
